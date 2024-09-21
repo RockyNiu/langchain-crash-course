@@ -12,8 +12,7 @@ persistent_directory = os.path.join(db_dir, "chroma_db_with_metadata")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
 # Load the existing vector store with the embedding function
-db = Chroma(persist_directory=persistent_directory,
-            embedding_function=embeddings)
+db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
 
 # Define the user's question
 query = "How did Juliet die?"

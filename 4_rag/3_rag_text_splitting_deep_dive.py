@@ -42,8 +42,7 @@ def create_vector_store(docs, store_name):
         )
         print(f"--- Finished creating vector store {store_name} ---")
     else:
-        print(
-            f"Vector store {store_name} already exists. No need to initialize.")
+        print(f"Vector store {store_name} already exists. No need to initialize.")
 
 
 # 1. Character-based Splitting
@@ -74,8 +73,7 @@ create_vector_store(token_docs, "chroma_db_token")
 # Attempts to split text at natural boundaries (sentences, paragraphs) within character limit.
 # Balances between maintaining coherence and adhering to character limits.
 print("\n--- Using Recursive Character-based Splitting ---")
-rec_char_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000, chunk_overlap=100)
+rec_char_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 rec_char_docs = rec_char_splitter.split_documents(documents)
 create_vector_store(rec_char_docs, "chroma_db_rec_char")
 
