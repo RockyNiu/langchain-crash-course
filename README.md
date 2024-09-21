@@ -4,7 +4,7 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
 ## Updates
 - Updated the `langchain` dependency to `0.3.0` in the `pyproject.toml` file.
 - Add `ruff` to format the codes.
-- Add `config.json` to debug the current file in VSCode.
+- Add `.vscode/launch.json` to debug the current file in VSCode.
 - Changes of code examples:
    - Add Perplexity API to ChatModel.
 
