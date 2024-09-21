@@ -3,7 +3,7 @@
 from dotenv import load_dotenv
 from google.cloud import firestore
 from langchain_google_firestore import FirestoreChatMessageHistory
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatPerplexity
 
 """
 Steps to replicate this example:
@@ -17,13 +17,13 @@ Steps to replicate this example:
         - https://cloud.google.com/docs/authentication/provide-credentials-adc#local-dev
     - Set your default project to the new Firebase project you created
 5. Enable the Firestore API in the Google Cloud Console:
-    - https://console.cloud.google.com/apis/enableflow?apiid=firestore.googleapis.com&project=crewai-automation
+    - https://console.cloud.google.com/apis/enableflow?apiid=firestore.googleapis.com
 """
 
 load_dotenv()
 
 # Setup Firebase Firestore
-PROJECT_ID = 'langchain-demo-abf48'
+PROJECT_ID = 'langchain-demo-2ad50' # Replace with your Firebase project ID
 SESSION_ID = 'user_session_new'  # This could be a username or a unique ID
 COLLECTION_NAME = 'chat_history'
 
@@ -42,7 +42,7 @@ print('Chat History Initialized.')
 print('Current Chat History:', chat_history.messages)
 
 # Initialize Chat Model
-model = ChatOpenAI()
+model = ChatPerplexity(timeout=30)
 
 print("Start chatting with the AI. Type 'exit' to quit.")
 
@@ -54,6 +54,15 @@ while True:
     chat_history.add_user_message(human_input)
 
     ai_response = model.invoke(chat_history.messages)
-    chat_history.add_ai_message(ai_response.content)
+    
+    # Ensure ai_response.content is a string
+    if isinstance(ai_response.content, list):
+        # Filter out non-string elements
+        ai_message_content = ' '.join(
+            item for item in ai_response.content if isinstance(item, str)
+        )
+    else:
+        ai_message_content = ai_response.content
+    chat_history.add_ai_message(ai_message_content)
 
     print(f'AI: {ai_response.content}')

@@ -15,12 +15,12 @@ messages = [
 
 # ---- LangChain OpenAI Chat Model Example ----
 
-# Create a ChatOpenAI model
-model = ChatOpenAI(model='gpt-4o')
+# # Create a ChatOpenAI model
+# model = ChatOpenAI(model='gpt-4o')
 
-# Invoke the model with messages
-result = model.invoke(messages)
-print(f'Answer from OpenAI: {result.content}')
+# # Invoke the model with messages
+# result = model.invoke(messages)
+# print(f'Answer from OpenAI: {result.content}')
 
 
 # ---- Anthropic Chat Model Example ----

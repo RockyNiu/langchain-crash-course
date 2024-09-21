@@ -8,7 +8,26 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
 - Changes of code examples:
    - Add Perplexity API to ChatModel.
 
+## Notes
+- Might need: Use google cloud CLI in Windows Subsystem for Linux (WSL) - [Reference](https://stackoverflow.com/questions/76983714/how-can-i-get-gcloud-auth-to-open-the-windows-browser-via-wsl)
+   - install `wslu` in WSL
+      - 
+      ```bash
+      sudo apt update
+      sudo apt install ubuntu-wsl
+      ```
+      To install the latest version of `wslu`, you can install via their PPA:
+      ```bash
+      sudo add-apt-repository ppa:wslutilities/wslu
+      sudo apt update
+      sudo apt install wslu
+      ```
 
+
+   - run the command with DISPLAY='ANYTHING'
+      ```bash
+      DISPLAY='X' gcloud auth application-default login
+      ```
 
 ---
 

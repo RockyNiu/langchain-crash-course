@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatPerplexity
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
 # Load environment variables from .env
 load_dotenv()
 
 # Create a ChatOpenAI model
-model = ChatOpenAI(model='gpt-4o')
+model = ChatPerplexity(timeout=30)
 
 
 chat_history = []  # Use a list to store messages
