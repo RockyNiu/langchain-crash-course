@@ -1,6 +1,14 @@
 # Purpose
 This repository is a fork of the original [LangChain Crash Course](https://github.com/bhancockio/langchain-crash-course) repository. The purpose of this fork is to adapt the original code examples to be used with the LangChain v0.3 release.
 
+## Updates
+- Updated the `langchain` dependency to `0.3.0` in the `pyproject.toml` file.
+- Add `ruff` to format the codes.
+- Add Perplexity calculation to the `1_chat_models/1_chat_model_basic.py` file.
+
+
+---
+
 # LangChain Crash Course
 
 Welcome to the LangChain Crash Course repository! This repo contains all the code examples you'll need to follow along with the LangChain Master Class for Beginners video. By the end of this course, you'll know how to use LangChain to create your own AI agents, build RAG chatbots, and automate tasks with AI.
