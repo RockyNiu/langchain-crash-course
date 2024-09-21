@@ -6,7 +6,7 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
 - Add `ruff` to format the codes.
 - Add `config.json` to debug the current file in VSCode.
 - Changes of code examples:
-   - Add Perplexity calculation to the `1_chat_models/1_chat_model_basic.py` file.
+   - Add Perplexity API to ChatModel.
 
 
 
