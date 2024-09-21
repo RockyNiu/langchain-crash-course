@@ -18,20 +18,20 @@ load_dotenv()
 
 
 class SimpleSearchInput(BaseModel):
-    query: str = Field(description="should be a search query")
+    query: str = Field(description='should be a search query')
 
 
 class MultiplyNumbersArgs(BaseModel):
-    x: float = Field(description="First number to multiply")
-    y: float = Field(description="Second number to multiply")
+    x: float = Field(description='First number to multiply')
+    y: float = Field(description='Second number to multiply')
 
 
 # Custom tool with only custom input
 
 
 class SimpleSearchTool(BaseTool):
-    name = "simple_search"
-    description = "useful for when you need to answer questions about current events"
+    name = 'simple_search'
+    description = 'useful for when you need to answer questions about current events'
     args_schema: Type[BaseModel] = SimpleSearchInput
 
     def _run(
@@ -41,16 +41,16 @@ class SimpleSearchTool(BaseTool):
         """Use the tool."""
         from tavily import TavilyClient
 
-        api_key = os.getenv("TAVILY_API_KEY")
+        api_key = os.getenv('TAVILY_API_KEY')
         client = TavilyClient(api_key=api_key)
         results = client.search(query=query)
-        return f"Search results for: {query}\n\n\n{results}\n"
+        return f'Search results for: {query}\n\n\n{results}\n'
 
 
 # Custom tool with custom input and output
 class MultiplyNumbersTool(BaseTool):
-    name = "multiply_numbers"
-    description = "useful for multiplying two numbers"
+    name = 'multiply_numbers'
+    description = 'useful for multiplying two numbers'
     args_schema: Type[BaseModel] = MultiplyNumbersArgs
 
     def _run(
@@ -60,7 +60,7 @@ class MultiplyNumbersTool(BaseTool):
     ) -> str:
         """Use the tool."""
         result = x * y
-        return f"The product of {x} and {y} is {result}"
+        return f'The product of {x} and {y} is {result}'
 
 
 # Create tools using the Pydantic subclass approach
@@ -70,10 +70,10 @@ tools = [
 ]
 
 # Initialize a ChatOpenAI model
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatOpenAI(model='gpt-4o')
 
 # Pull the prompt template from the hub
-prompt = hub.pull("hwchase17/openai-tools-agent")
+prompt = hub.pull('hwchase17/openai-tools-agent')
 
 # Create the ReAct agent using the create_tool_calling_agent function
 agent = create_tool_calling_agent(
@@ -91,8 +91,8 @@ agent_executor = AgentExecutor.from_agent_and_tools(
 )
 
 # Test the agent with sample queries
-response = agent_executor.invoke({"input": "Search for Apple Intelligence"})
+response = agent_executor.invoke({'input': 'Search for Apple Intelligence'})
 print("Response for 'Search for LangChain updates':", response)
 
-response = agent_executor.invoke({"input": "Multiply 10 and 20"})
+response = agent_executor.invoke({'input': 'Multiply 10 and 20'})
 print("Response for 'Multiply 10 and 20':", response)

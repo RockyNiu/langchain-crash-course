@@ -14,13 +14,13 @@ from langchain_openai import ChatOpenAI
 @tool()
 def greet_user(name: str) -> str:
     """Greets the user by name."""
-    return f"Hello, {name}!"
+    return f'Hello, {name}!'
 
 
 # Pydantic models for tool arguments
 # Define a Pydantic model to specify the input schema for tools that need more structured input.
 class ReverseStringArgs(BaseModel):
-    text: str = Field(description="Text to be reversed")
+    text: str = Field(description='Text to be reversed')
 
 
 # Tool with One Parameter using args_schema
@@ -33,8 +33,8 @@ def reverse_string(text: str) -> str:
 
 # Another Pydantic model for tool arguments
 class ConcatenateStringsArgs(BaseModel):
-    a: str = Field(description="First string")
-    b: str = Field(description="Second string")
+    a: str = Field(description='First string')
+    b: str = Field(description='Second string')
 
 
 # Tool with Two Parameters using args_schema
@@ -42,8 +42,8 @@ class ConcatenateStringsArgs(BaseModel):
 @tool(args_schema=ConcatenateStringsArgs)
 def concatenate_strings(a: str, b: str) -> str:
     """Concatenates two strings."""
-    print("a", a)
-    print("b", b)
+    print('a', a)
+    print('b', b)
     return a + b
 
 
@@ -56,10 +56,10 @@ tools = [
 ]
 
 # Initialize a ChatOpenAI model
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatOpenAI(model='gpt-4o')
 
 # Pull the prompt template from the hub
-prompt = hub.pull("hwchase17/openai-tools-agent")
+prompt = hub.pull('hwchase17/openai-tools-agent')
 
 # Create the ReAct agent using the create_tool_calling_agent function
 # This function sets up an agent capable of calling tools based on the provided prompt.
@@ -78,11 +78,11 @@ agent_executor = AgentExecutor.from_agent_and_tools(
 )
 
 # Test the agent with sample queries
-response = agent_executor.invoke({"input": "Greet Alice"})
+response = agent_executor.invoke({'input': 'Greet Alice'})
 print("Response for 'Greet Alice':", response)
 
-response = agent_executor.invoke({"input": "Reverse the string 'hello'"})
+response = agent_executor.invoke({'input': "Reverse the string 'hello'"})
 print("Response for 'Reverse the string hello':", response)
 
-response = agent_executor.invoke({"input": "Concatenate 'hello' and 'world'"})
+response = agent_executor.invoke({'input': "Concatenate 'hello' and 'world'"})
 print("Response for 'Concatenate hello and world':", response)

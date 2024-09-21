@@ -14,9 +14,9 @@ model = ChatPerplexity(timeout=30)
 #   Message from a human to the AI model.
 messages = [
     SystemMessage(
-        content="Solve the following math problems"
+        content='Solve the following math problems'
     ),  # must be the first message
-    HumanMessage(content="What is 81 divided by 9?"),
+    HumanMessage(content='What is 81 divided by 9?'),
 ]
 
 # Invoke the model with messages
@@ -27,10 +27,10 @@ messages = [
 # AIMessage:
 #   Message from an AI.
 messages = [
-    SystemMessage(content="Solve the following math problems"),
-    HumanMessage(content="What is 81 divided by 9?"),
-    AIMessage(content="81 divided by 9 is 9."),
-    HumanMessage(content="What is 10 times 5?"),
+    SystemMessage(content='Solve the following math problems'),
+    HumanMessage(content='What is 81 divided by 9?'),
+    AIMessage(content='81 divided by 9 is 9.'),
+    HumanMessage(content='What is 10 times 5?'),
 ]
 
 # Invoke the model with messages
@@ -44,11 +44,11 @@ messages = [
     SystemMessage(
         content='Solve the following math problems. For each question, provide the answer in the following format: { "answer": <number> }'
     ),
-    HumanMessage(content="What is 81 divided by 9?"),
+    HumanMessage(content='What is 81 divided by 9?'),
     AIMessage(content='{ "answer": 9 }'),
-    HumanMessage(content="What is 10 times 5?"),
+    HumanMessage(content='What is 10 times 5?'),
 ]
 
 # Invoke the model with messages
 result = model.invoke(messages)
-print(f"Answer from AI: {result.content}")
+print(f'Answer from AI: {result.content}')

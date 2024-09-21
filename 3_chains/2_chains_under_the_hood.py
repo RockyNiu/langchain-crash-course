@@ -7,13 +7,13 @@ from langchain_openai import ChatOpenAI
 load_dotenv()
 
 # Create a ChatOpenAI model
-model = ChatOpenAI(model="gpt-4")
+model = ChatOpenAI(model='gpt-4')
 
 # Define prompt templates
 prompt_template = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are a comedian who tells jokes about {topic}."),
-        ("human", "Tell me {joke_count} jokes."),
+        ('system', 'You are a comedian who tells jokes about {topic}.'),
+        ('human', 'Tell me {joke_count} jokes.'),
     ]
 )
 
@@ -26,7 +26,7 @@ parse_output = RunnableLambda(lambda x: x.content)
 chain = RunnableSequence(first=format_prompt, middle=[invoke_model], last=parse_output)
 
 # Run the chain
-response = chain.invoke({"topic": "lawyers", "joke_count": 3})
+response = chain.invoke({'topic': 'lawyers', 'joke_count': 3})
 
 # Output
 print(response)

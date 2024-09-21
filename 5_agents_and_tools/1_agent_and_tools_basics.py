@@ -17,26 +17,26 @@ def get_current_time(*args, **kwargs):
     import datetime  # Import datetime module to get current time
 
     now = datetime.datetime.now()  # Get current time
-    return now.strftime("%I:%M %p")  # Format time in H:MM AM/PM format
+    return now.strftime('%I:%M %p')  # Format time in H:MM AM/PM format
 
 
 # List of tools available to the agent
 tools = [
     Tool(
-        name="Time",  # Name of the tool
+        name='Time',  # Name of the tool
         func=get_current_time,  # Function that the tool will execute
         # Description of the tool
-        description="Useful for when you need to know the current time",
+        description='Useful for when you need to know the current time',
     ),
 ]
 
 # Pull the prompt template from the hub
 # ReAct = Reason and Action
 # https://smith.langchain.com/hub/hwchase17/react
-prompt = hub.pull("hwchase17/react")
+prompt = hub.pull('hwchase17/react')
 
 # Initialize a ChatOpenAI model
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
+llm = ChatOpenAI(model='gpt-4o', temperature=0)
 
 # Create the ReAct agent using the create_react_agent function
 agent = create_react_agent(
@@ -54,7 +54,7 @@ agent_executor = AgentExecutor.from_agent_and_tools(
 )
 
 # Run the agent with a test query
-response = agent_executor.invoke({"input": "What time is it?"})
+response = agent_executor.invoke({'input': 'What time is it?'})
 
 # Print the response from the agent
-print("response:", response)
+print('response:', response)
