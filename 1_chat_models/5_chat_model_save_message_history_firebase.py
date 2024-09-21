@@ -23,7 +23,7 @@ Steps to replicate this example:
 load_dotenv()
 
 # Setup Firebase Firestore
-PROJECT_ID = 'langchain-demo-2ad50' # Replace with your Firebase project ID
+PROJECT_ID = 'langchain-demo-2ad50'  # Replace with your Firebase project ID
 SESSION_ID = 'user_session_new'  # This could be a username or a unique ID
 COLLECTION_NAME = 'chat_history'
 
@@ -54,7 +54,7 @@ while True:
     chat_history.add_user_message(human_input)
 
     ai_response = model.invoke(chat_history.messages)
-    
+
     # Ensure ai_response.content is a string
     if isinstance(ai_response.content, list):
         # Filter out non-string elements
