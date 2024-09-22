@@ -2,13 +2,13 @@ from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnableLambda
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatPerplexity
 
 # Load environment variables from .env
 load_dotenv()
 
-# Create a ChatOpenAI model
-model = ChatOpenAI(model='gpt-4o')
+# Create a Perplexity model
+model = ChatPerplexity(timeout=30)
 
 # Define prompt templates
 prompt_template = ChatPromptTemplate.from_messages(
@@ -19,8 +19,10 @@ prompt_template = ChatPromptTemplate.from_messages(
 )
 
 # Define additional processing steps using RunnableLambda
-uppercase_output = RunnableLambda(lambda x: x.upper())
-count_words = RunnableLambda(lambda x: f'Word count: {len(x.split())}\n{x}')
+uppercase_output = RunnableLambda(lambda x: x.upper() if isinstance(x, str) else None)
+count_words = RunnableLambda(
+    lambda x: f'Word count: {len(x.split())}\n{x}' if isinstance(x, str) else None
+)
 
 # Create the combined chain using LangChain Expression Language (LCEL)
 chain = prompt_template | model | StrOutputParser() | uppercase_output | count_words

@@ -1,14 +1,15 @@
 from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
-from langchain.schema.runnable import RunnableParallel, RunnableLambda
-from langchain_openai import ChatOpenAI
+from langchain.schema.runnable import RunnableLambda, RunnableParallel
+from langchain_community.chat_models import ChatPerplexity
+from langchain_core.prompt_values import PromptValue
 
 # Load environment variables from .env
 load_dotenv()
 
-# Create a ChatOpenAI model
-model = ChatOpenAI(model='gpt-4o')
+# Create a Perplexity model
+model = ChatPerplexity(timeout=30)
 
 # Define prompt template
 prompt_template = ChatPromptTemplate.from_messages(
@@ -20,7 +21,7 @@ prompt_template = ChatPromptTemplate.from_messages(
 
 
 # Define pros analysis step
-def analyze_pros(features):
+def analyze_pros(features) -> PromptValue:
     pros_template = ChatPromptTemplate.from_messages(
         [
             ('system', 'You are an expert product reviewer.'),
@@ -34,7 +35,7 @@ def analyze_pros(features):
 
 
 # Define cons analysis step
-def analyze_cons(features):
+def analyze_cons(features) -> PromptValue:
     cons_template = ChatPromptTemplate.from_messages(
         [
             ('system', 'You are an expert product reviewer.'),
@@ -69,6 +70,8 @@ chain = (
     | RunnableParallel(branches={'pros': pros_branch_chain, 'cons': cons_branch_chain})
     | RunnableLambda(
         lambda x: combine_pros_cons(x['branches']['pros'], x['branches']['cons'])
+        if isinstance(x, dict)
+        else None
     )
 )
 

@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_community.chat_models import ChatPerplexity
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 # Load environment variables from .env
 load_dotenv()
 
-# Create a ChatOpenAI model
+# Create a Perplexity model
 model = ChatPerplexity(timeout=30)
 
 # SystemMessage:

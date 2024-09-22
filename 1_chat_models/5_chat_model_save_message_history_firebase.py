@@ -2,8 +2,8 @@
 
 from dotenv import load_dotenv
 from google.cloud import firestore
-from langchain_google_firestore import FirestoreChatMessageHistory
 from langchain_community.chat_models import ChatPerplexity
+from langchain_google_firestore import FirestoreChatMessageHistory
 
 """
 Steps to replicate this example:

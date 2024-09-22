@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatPerplexity
 
 # Load environment variables from .env
 load_dotenv()
 
-# Create a ChatOpenAI model
-model = ChatOpenAI(model='gpt-4o')
+# Create a Perplexity model
+model = ChatPerplexity(timeout=30)
 
 # PART 1: Create a ChatPromptTemplate using a template string
 print('-----Prompt from Template-----')
