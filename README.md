@@ -7,9 +7,11 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
 - Add `.vscode/launch.json` to debug the current file in VSCode.
 - Changes of code examples:
    - Add Perplexity API to ChatModel.
+- Add [ollama](https://ollama.com/) to host local LLMs and Embeddings.
 
 ## Notes
-- Might need: Use google cloud CLI in Windows Subsystem for Linux (WSL) - [Reference](https://stackoverflow.com/questions/76983714/how-can-i-get-gcloud-auth-to-open-the-windows-browser-via-wsl)
+### for Windows Subsystem for Linux (WSL)
+- Might need for google cloud cli - [Reference](https://stackoverflow.com/questions/76983714/how-can-i-get-gcloud-auth-to-open-the-windows-browser-via-wsl)
    - install `wslu` in WSL
       - 
       ```bash
@@ -22,13 +24,22 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
       sudo apt update
       sudo apt install wslu
       ```
-
-
    - run the command with DISPLAY='ANYTHING'
       ```bash
       DISPLAY='X' gcloud auth application-default login
       ```
-
+- ollama
+   - Since WSL is not in the same network with host, you could not directly call localhost:11434 to query ollama.
+   But you could easily resolve this issue by enabling [mirrored mode networking](https://learn.microsoft.com/en-us/windows/wsl/networking#mirrored-mode-networking).
+   - To enable mirrored mode networking, follow these steps:
+      - `wsl --update`
+      - Edit your WSL configuration file (.wslconfig) in your user profile directory (e.g., C:\Users\YourUsername\.wslconfig) and add the following lines:
+         ```text
+         [wsl2]
+         networkingMode = mirrored
+         ```
+      - `wsl --shutdown`
+      - restart WSL
 ---
 
 # LangChain Crash Course
