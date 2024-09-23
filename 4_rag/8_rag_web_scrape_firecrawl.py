@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import FireCrawlLoader
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
 
 # Load environment variables from .env
 load_dotenv()
@@ -12,7 +12,8 @@ load_dotenv()
 # Define the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
 db_dir = os.path.join(current_dir, 'db')
-persistent_directory = os.path.join(db_dir, 'chroma_db_firecrawl')
+# persistent_directory = os.path.join(db_dir, 'chroma_db_firecrawl')
+persistent_directory = os.path.join(db_dir, 'chroma_db_firecrawl_with_metadata')
 
 
 def create_vector_store():
@@ -33,6 +34,7 @@ def create_vector_store():
         for key, value in doc.metadata.items():
             if isinstance(value, list):
                 doc.metadata[key] = ', '.join(map(str, value))
+        doc.metadata['source'] = 'Apple Website'
 
     # Step 2: Split the crawled content into chunks
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
@@ -44,7 +46,8 @@ def create_vector_store():
     print(f'Sample chunk:\n{split_docs[0].page_content}\n')
 
     # Step 3: Create embeddings for the document chunks
-    embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+    # embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+    embeddings = OllamaEmbeddings(model='nomic-embed-text') # Update to a valid embedding model if needed
 
     # Step 4: Create and persist the vector store with the embeddings
     print(f'\n--- Creating vector store in {persistent_directory} ---')
@@ -61,7 +64,8 @@ else:
     print(f'Vector store {persistent_directory} already exists. No need to initialize.')
 
 # Load the vector store with the embeddings
-embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+# embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+embeddings = OllamaEmbeddings(model='nomic-embed-text') # Update to a valid embedding model if needed
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
 
 
