@@ -12,6 +12,9 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
    - the aim is to resolve the issue `[Errno 104] Connection reset by peer` when querying ollama locally.
    - Multi-threading version of `4_rag/2a_rag_basics_metadata.py`.
    - use a small embedding model `nomic-embed-text`.
+- Add [5_agents_and_tools/1_agent_and_tools_basics_structured_chat.py](5_agents_and_tools/1_agent_and_tools_basics_structured_chat.py)
+   - there is an issue with the original code example `5_agents_and_tools/1_agent_and_tools_basics.py`.
+   - demonstrate how to use `structured_chat` prompt template.
 
 ## Notes
 ### for Windows Subsystem for Linux (WSL)

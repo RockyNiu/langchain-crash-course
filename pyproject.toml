@@ -3,9 +3,10 @@ name = "langchain-crash-course"
 version = "0.1.1"
 description = "Everything you need to know to get started with LangChain"
 authors = ["bhancock_ai <brandon@brandonhancock.io>", "RockyNiu <lei.niu.ny@gmail.com>"]
+license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.10.0, <3.12"
+python = ">=3.12, <4.0"
 bs4 = "^0.0.2"
 chromadb = "^0.5.7"
 firecrawl-py = "^1.2.4"
