@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 current_dir = os.path.dirname(os.path.abspath(__file__))
 books_dir = os.path.join(current_dir, 'books')
 db_dir = os.path.join(current_dir, 'db')
-persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata')
+persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata_multi_threading')
 
 def init_chroma_persistent_client():
     if not os.path.exists(persistent_directory):
