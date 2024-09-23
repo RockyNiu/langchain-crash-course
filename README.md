@@ -3,11 +3,15 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
 
 ## Updates
 - Updated the `langchain` dependency to `0.3.0` in the `pyproject.toml` file.
-- Add `ruff` to format the codes.
-- Add `.vscode/launch.json` to debug the current file in VSCode.
+- Add `ruff` to format the codes. (run `make format` on command line)
+- Add `.vscode/launch.json` to debug the current file in VSCode (Ctrl+Shift+D => F5).
 - Changes of code examples:
    - Add Perplexity API to ChatModel.
 - Add [ollama](https://ollama.com/) to host local LLMs and Embeddings.
+- Add [4_rag/2a_rag_basics_metadata_multi_threading.py](4_rag/2a_rag_basics_metadata_multi_threading.py)
+   - the aim is to resolve the issue `[Errno 104] Connection reset by peer` when querying ollama locally.
+   - Multi-threading version of `4_rag/2a_rag_basics_metadata.py`.
+   - use a small embedding model `nomic-embed-text`.
 
 ## Notes
 ### for Windows Subsystem for Linux (WSL)
