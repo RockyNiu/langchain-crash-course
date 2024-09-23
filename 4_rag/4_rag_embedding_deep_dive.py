@@ -1,10 +1,10 @@
 import os
 
-from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
 
 # Define the directory containing the text file and the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -47,9 +47,17 @@ def create_vector_store(docs, embeddings, store_name):
 # Useful for general-purpose embeddings with high accuracy.
 # Note: The cost of using OpenAI embeddings will depend on your OpenAI API usage and pricing plan.
 # Pricing: https://openai.com/api/pricing/
-print('\n--- Using OpenAI Embeddings ---')
-openai_embeddings = OpenAIEmbeddings(model='text-embedding-ada-002')
-create_vector_store(docs, openai_embeddings, 'chroma_db_openai')
+# print('\n--- Using OpenAI Embeddings ---')
+# openai_embeddings = OpenAIEmbeddings(model='text-embedding-ada-002')
+# create_vector_store(docs, openai_embeddings, 'chroma_db_openai')
+
+# 1. Ollama Embeddings with nomic-embed-text
+# Uses the Ollama embeddings with the nomic-embed-text model.
+# Ideal for general-purpose embeddings with high accuracy.
+# Note: The cost of using Ollama embeddings locally on your machine incurs no direct cost other than using your computational resources.
+print('\n--- Using Ollama Embeddings with nomic-embed-text ---')
+ollama_embeddings = OllamaEmbeddings(model='nomic-embed-text')
+create_vector_store(docs, ollama_embeddings, 'chroma_db_nomic_embed_text')
 
 # 2. Hugging Face Transformers
 # Uses models from the Hugging Face library.
@@ -93,7 +101,7 @@ def query_vector_store(store_name, query, embedding_function):
 query = "Who is Odysseus' wife?"
 
 # Query each vector store
-query_vector_store('chroma_db_openai', query, openai_embeddings)
+query_vector_store('chroma_db_nomic_embed_text', query, ollama_embeddings)
 query_vector_store('chroma_db_huggingface', query, huggingface_embeddings)
 
 print('Querying demonstrations completed.')
