@@ -3,10 +3,11 @@ import os
 from dotenv import load_dotenv
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_community.chat_models import ChatPerplexity
 from langchain_community.vectorstores import Chroma
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
 
 # Load environment variables from .env
 load_dotenv()
@@ -16,7 +17,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 persistent_directory = os.path.join(current_dir, 'db', 'chroma_db_with_metadata')
 
 # Define the embedding model
-embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+embeddings = OllamaEmbeddings(model='nomic-embed-text')  # Update to a valid embedding model if needed
 
 # Load the existing vector store with the embedding function
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
@@ -29,8 +30,8 @@ retriever = db.as_retriever(
     search_kwargs={'k': 3},
 )
 
-# Create a ChatOpenAI model
-llm = ChatOpenAI(model='gpt-4o')
+# Create a Perplexity model
+llm = ChatPerplexity(timeout=30)
 
 # Contextualize question prompt
 # This system prompt helps the AI understand that it should reformulate the question
@@ -102,7 +103,7 @@ def continual_chat():
         print(f"AI: {result['answer']}")
         # Update the chat history
         chat_history.append(HumanMessage(content=query))
-        chat_history.append(SystemMessage(content=result['answer']))
+        chat_history.append(AIMessage(content=result['answer']))
 
 
 # Main function to start the continual chat

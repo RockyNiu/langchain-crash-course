@@ -1,9 +1,10 @@
 import os
 
 from dotenv import load_dotenv
+from langchain_community.chat_models import ChatPerplexity
 from langchain_community.vectorstores import Chroma
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
 
 # Load environment variables from .env
 load_dotenv()
@@ -13,7 +14,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 persistent_directory = os.path.join(current_dir, 'db', 'chroma_db_with_metadata')
 
 # Define the embedding model
-embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+embeddings = OllamaEmbeddings(model='nomic-embed-text')  # Update to a valid embedding model if needed
 
 # Load the existing vector store with the embedding function
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
@@ -42,8 +43,8 @@ combined_input = (
     + "\n\nPlease provide an answer based only on the provided documents. If the answer is not found in the documents, respond with 'I'm not sure'."
 )
 
-# Create a ChatOpenAI model
-model = ChatOpenAI(model='gpt-4o')
+# Create a ChatPerplexity model
+model = ChatPerplexity(timeout=30)
 
 # Define the messages for the model
 messages = [
