@@ -6,6 +6,9 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
 
+####################################################################################################
+# Only works with OpenAI models. It does not work with Anthropic, Llama, or Perplexity models.
+
 # Load environment variables from .env file
 load_dotenv()
 
