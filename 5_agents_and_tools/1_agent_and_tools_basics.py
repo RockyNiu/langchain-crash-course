@@ -4,8 +4,13 @@ from langchain.agents import (
     AgentExecutor,
     create_react_agent,
 )
+
+# from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 from langchain_core.tools import Tool
-from langchain_openai import ChatOpenAI
+
+####################################################################################################
+# This script only works with OpenAI and Anthropic models. It does not work with Llama and Perplexity.
 
 # Load environment variables from .env file
 load_dotenv()
@@ -35,8 +40,15 @@ tools = [
 # https://smith.langchain.com/hub/hwchase17/react
 prompt = hub.pull('hwchase17/react')
 
-# Initialize a ChatOpenAI model
-llm = ChatOpenAI(model='gpt-4o', temperature=0)
+# # Initialize a ChatOpenAI model
+# llm = ChatOpenAI(model='gpt-4o', temperature=0)
+
+# Initialize a Perplexity model
+llm = ChatAnthropic(
+    model_name='claude-3-opus-20240229', timeout=30, stop=[]
+)  # stop=[] to disable stop words
+
+
 
 # Create the ReAct agent using the create_react_agent function
 agent = create_react_agent(

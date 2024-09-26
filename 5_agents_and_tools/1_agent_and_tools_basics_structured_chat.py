@@ -48,7 +48,11 @@ agent = create_structured_chat_agent(
     tools=tools, 
     prompt=prompt,
 )
-agent_executor = AgentExecutor(agent=agent, tools=tools)
+agent_executor = AgentExecutor(
+    agent=agent, 
+    tools=tools,
+    verbose=True,
+)
 
 # Run the agent with a test query
 response = agent_executor.invoke({"input": "What is 5 multiplied by 3, and then add 10 to the result?"})
