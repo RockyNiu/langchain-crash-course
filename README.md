@@ -15,6 +15,9 @@ This repository is a fork of the original [LangChain Crash Course](https://githu
 - Add [5_agents_and_tools/1_agent_and_tools_basics_structured_chat.py](5_agents_and_tools/1_agent_and_tools_basics_structured_chat.py)
    - there is an issue with the original code example `5_agents_and_tools/1_agent_and_tools_basics.py`.
    - demonstrate how to use `structured_chat` prompt template.
+- Fix [5_agents_and_tools/tools_deep_dive/3_tool_base_tool.py](5_agents_and_tools/tools_deep_dive/3_tool_base_tool.py)
+   - the original code example has an issue with the `BaseTool` class.
+   - update the import of pydantic
 
 ## Notes
 ### for Windows Subsystem for Linux (WSL)
