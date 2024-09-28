@@ -47,11 +47,13 @@ def create_vector_store():
 
     # Step 3: Create embeddings for the document chunks
     # embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
-    embeddings = OllamaEmbeddings(model='nomic-embed-text') # Update to a valid embedding model if needed
+    embeddings = OllamaEmbeddings(
+        model='nomic-embed-text'
+    )  # Update to a valid embedding model if needed
 
     # Step 4: Create and persist the vector store with the embeddings
     print(f'\n--- Creating vector store in {persistent_directory} ---')
-    db = Chroma.from_documents(
+    Chroma.from_documents(
         split_docs, embeddings, persist_directory=persistent_directory
     )
     print(f'--- Finished creating vector store in {persistent_directory} ---')
@@ -65,7 +67,9 @@ else:
 
 # Load the vector store with the embeddings
 # embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
-embeddings = OllamaEmbeddings(model='nomic-embed-text') # Update to a valid embedding model if needed
+embeddings = OllamaEmbeddings(
+    model='nomic-embed-text'
+)  # Update to a valid embedding model if needed
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
 
 

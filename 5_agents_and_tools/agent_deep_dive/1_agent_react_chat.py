@@ -29,7 +29,7 @@ def search_wikipedia(query):
     try:
         # Limit to two sentences for brevity
         return summary(query, sentences=2)
-    except:
+    except Exception:
         return "I couldn't find any information on that."
 
 

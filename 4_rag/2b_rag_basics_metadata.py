@@ -7,10 +7,14 @@ from langchain_ollama import OllamaEmbeddings
 current_dir = os.path.dirname(os.path.abspath(__file__))
 db_dir = os.path.join(current_dir, 'db')
 # persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata')
-persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata_multi_threading') # Update to the correct directory if needed
+persistent_directory = os.path.join(
+    db_dir, 'chroma_db_with_metadata_multi_threading'
+)  # Update to the correct directory if needed
 
 # Define the embedding model
-embeddings = OllamaEmbeddings(model='nomic-embed-text') # Update to a valid embedding model if needed
+embeddings = OllamaEmbeddings(
+    model='nomic-embed-text'
+)  # Update to a valid embedding model if needed
 
 # Load the existing vector store with the embedding function
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)

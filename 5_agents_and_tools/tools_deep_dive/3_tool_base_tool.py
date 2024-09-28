@@ -2,15 +2,15 @@
 
 # Import necessary libraries
 import os
-from typing import Type
+from typing import Any
 
 from dotenv import load_dotenv
 from langchain import hub
 from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_core.tools import BaseTool
 from langchain_openai import ChatOpenAI
-
+from tavily import TavilyClient
 
 load_dotenv()
 
@@ -30,17 +30,20 @@ class MultiplyNumbersArgs(BaseModel):
 
 
 class SimpleSearchTool(BaseTool):
-    name = 'simple_search'
-    description = 'useful for when you need to answer questions about current events'
-    args_schema: Type[BaseModel] = SimpleSearchInput
+    def __init__(self, **kwargs: Any) -> None:
+        """Initialize tool."""
+        super().__init__(
+            name='simple_search',
+            description='useful for when you need to answer questions about current events',
+            args_schema=SimpleSearchInput,
+            **kwargs,
+        )
 
     def _run(
         self,
         query: str,
     ) -> str:
         """Use the tool."""
-        from tavily import TavilyClient
-
         api_key = os.getenv('TAVILY_API_KEY')
         client = TavilyClient(api_key=api_key)
         results = client.search(query=query)
@@ -49,9 +52,14 @@ class SimpleSearchTool(BaseTool):
 
 # Custom tool with custom input and output
 class MultiplyNumbersTool(BaseTool):
-    name = 'multiply_numbers'
-    description = 'useful for multiplying two numbers'
-    args_schema: Type[BaseModel] = MultiplyNumbersArgs
+    def __init__(self, **kwargs: Any) -> None:
+        """Initialize tool."""
+        super().__init__(
+            name='multiply_numbers',
+            description='useful for multiplying two numbers',
+            args_schema=MultiplyNumbersArgs,
+            **kwargs,
+        )
 
     def _run(
         self,
@@ -70,7 +78,7 @@ tools = [
 ]
 
 # Initialize a ChatOpenAI model
-llm = ChatOpenAI(model='gpt-4o')
+llm = ChatOpenAI(model='gpt-4o-mini')
 
 # Pull the prompt template from the hub
 prompt = hub.pull('hwchase17/openai-tools-agent')

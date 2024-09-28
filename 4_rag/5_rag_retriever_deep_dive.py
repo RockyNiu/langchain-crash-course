@@ -9,10 +9,12 @@ load_dotenv()
 # Define the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
 db_dir = os.path.join(current_dir, 'db')
-persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata')
+persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata_multi_threading')
 
 # Define the embedding model
-embeddings = OllamaEmbeddings(model='nomic-embed-text')  # Update to a valid embedding model if needed
+embeddings = OllamaEmbeddings(
+    model='nomic-embed-text'
+)  # Update to a valid embedding model if needed
 
 # Load the existing vector store with the embedding function
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
@@ -53,7 +55,9 @@ query = 'How did Juliet die?'
 # It finds the most similar documents to the query vector based on cosine similarity.
 # Use this when you want to retrieve the top k most similar documents.
 print('\n--- Using Similarity Search ---')
-query_vector_store('chroma_db_with_metadata', query, embeddings, 'similarity', {'k': 3})
+query_vector_store(
+    'chroma_db_with_metadata_multi_threading', query, embeddings, 'similarity', {'k': 3}
+)
 
 # 2. Max Marginal Relevance (MMR)
 # This method balances between selecting documents that are relevant to the query and diverse among themselves.
@@ -65,7 +69,7 @@ query_vector_store('chroma_db_with_metadata', query, embeddings, 'similarity', {
 #       providing a broader range of information.
 print('\n--- Using Max Marginal Relevance (MMR) ---')
 query_vector_store(
-    'chroma_db_with_metadata',
+    'chroma_db_with_metadata_multi_threading',
     query,
     embeddings,
     'mmr',
@@ -78,7 +82,7 @@ query_vector_store(
 # Use this when you want to ensure that only highly relevant documents are retrieved, filtering out less relevant ones.
 print('\n--- Using Similarity Score Threshold ---')
 query_vector_store(
-    'chroma_db_with_metadata',
+    'chroma_db_with_metadata_multi_threading',
     query,
     embeddings,
     'similarity_score_threshold',

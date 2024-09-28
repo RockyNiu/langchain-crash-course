@@ -49,7 +49,6 @@ llm = ChatAnthropic(
 )  # stop=[] to disable stop words
 
 
-
 # Create the ReAct agent using the create_react_agent function
 agent = create_react_agent(
     llm=llm,

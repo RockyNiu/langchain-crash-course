@@ -6,10 +6,14 @@ from langchain.agents import AgentExecutor, create_react_agent
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.vectorstores import Chroma
-from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.tools import Tool
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
+from langchain_openai import ChatOpenAI
+
+####################################################################################################
+# The problem of this example is that 'chat_history' is not updated after each conversation.
+# For example, it couldn't find the answer to the question "Who is Brandon Hancock".
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,7 +21,7 @@ load_dotenv()
 # Load the existing Chroma vector store
 current_dir = os.path.dirname(os.path.abspath(__file__))
 db_dir = os.path.join(current_dir, '..', '..', '4_rag', 'db')
-persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata')
+persistent_directory = os.path.join(db_dir, 'chroma_db_with_metadata_multi_threading')
 
 # Check if the Chroma vector store already exists
 if os.path.exists(persistent_directory):
@@ -29,7 +33,7 @@ else:
     )
 
 # Define the embedding model
-embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+embeddings = OllamaEmbeddings(model='nomic-embed-text')
 
 # Load the existing vector store with the embedding function
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
@@ -43,7 +47,7 @@ retriever = db.as_retriever(
 )
 
 # Create a ChatOpenAI model
-llm = ChatOpenAI(model='gpt-4o')
+llm = ChatOpenAI(model='gpt-4o-mini', temperature=0)
 
 # Contextualize question prompt
 # This system prompt helps the AI understand that it should reformulate the question
@@ -108,12 +112,17 @@ react_docstore_prompt = hub.pull('hwchase17/react')
 tools = [
     Tool(
         name='Answer Question',
-        func=lambda input, **kwargs: rag_chain.invoke(
-            {'input': input, 'chat_history': kwargs.get('chat_history', [])}
+        func=lambda **kwargs: rag_chain.invoke(
+            {
+                'input': kwargs.get('input'),
+                'chat_history': kwargs.get('chat_history', []),
+            }
         ),
         description='useful for when you need to answer questions about the context',
     )
 ]
+
+chat_history = []
 
 # Create the ReAct Agent with document store retriever
 agent = create_react_agent(
@@ -129,7 +138,6 @@ agent_executor = AgentExecutor.from_agent_and_tools(
     verbose=True,
 )
 
-chat_history = []
 while True:
     query = input('You: ')
     if query.lower() == 'exit':
@@ -138,5 +146,5 @@ while True:
     print(f"AI: {response['output']}")
 
     # Update history
-    chat_history.append(HumanMessage(content=query))
-    chat_history.append(AIMessage(content=response['output']))
+    chat_history.append(query)
+    chat_history.append(response['output'])

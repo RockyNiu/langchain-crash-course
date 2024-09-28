@@ -98,9 +98,7 @@ chain = classification_chain | branches
 # review = (
 #     'The product is okay. It works as expected but nothing exceptional.'
 # )
-review = (
-    'Hello! I have some feedback about the product.'
-)
+review = 'Hello! I have some feedback about the product.'
 
 result = chain.invoke({'feedback': review})
 
